@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Route as RouteIcon, Server, Shield, Sparkles, Waves, Zap } from "lucide-react";
+import { readData } from "../activities/readData.activity";
 
-export const Route = createFileRoute("/")({ component: App });
+export const Route = createFileRoute("/")({
+  loader: () => readData(),
+  component: App,
+});
 
 function App() {
   const features = [
@@ -42,6 +46,8 @@ function App() {
         "Built from the ground up for modern web applications. Deploy anywhere JavaScript runs.",
     },
   ];
+
+  const data = Route.useLoaderData();
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
@@ -84,6 +90,19 @@ function App() {
               </code>
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="py-8 px-6 max-w-7xl mx-auto">
+        <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6">
+          <h2 className="text-lg font-semibold text-white mb-3">{data.message}</h2>
+          <ul className="flex gap-4">
+            {data.items.map((item) => (
+              <li key={item.id} className="px-3 py-1 bg-slate-700 rounded text-gray-300 text-sm">
+                {item.name}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
