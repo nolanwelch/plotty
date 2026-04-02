@@ -1,6 +1,8 @@
+import type { DataResponse } from "../models/data.models";
+
 export function makeDataService() {
   return {
-    readData() {
+    readData(): DataResponse {
       return {
         message: "Hello from Plotty",
         items: [
