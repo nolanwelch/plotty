@@ -1,125 +1,154 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Route as RouteIcon, Server, Shield, Sparkles, Waves, Zap } from "lucide-react";
-import { readData } from "../activities/readData.activity";
+import { Trash2 } from "lucide-react";
+import { getDailyPuzzle } from "@/activities/getDailyPuzzle.activity";
+import ConstraintChecklist from "@/components/puzzle/ConstraintChecklist";
+import Grid from "@/components/puzzle/Grid";
+import PlantTray from "@/components/puzzle/PlantTray";
+// import RulesPanel from "@/components/puzzle/RulesPanel";
+import WinModal from "@/components/puzzle/WinModal";
+import { usePuzzleGame } from "@/hooks/usePuzzleGame";
+import { t } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
-  loader: () => readData(),
-  component: App,
+  loader: () => getDailyPuzzle(),
+  component: PuzzlePage,
 });
 
-function App() {
-  const features = [
-    {
-      icon: <Zap className="w-12 h-12 text-cyan-400" />,
-      title: "Powerful Server Functions",
-      description:
-        "Write server-side code that seamlessly integrates with your client components. Type-safe, secure, and simple.",
-    },
-    {
-      icon: <Server className="w-12 h-12 text-cyan-400" />,
-      title: "Flexible Server Side Rendering",
-      description:
-        "Full-document SSR, streaming, and progressive enhancement out of the box. Control exactly what renders where.",
-    },
-    {
-      icon: <RouteIcon className="w-12 h-12 text-cyan-400" />,
-      title: "API Routes",
-      description:
-        "Build type-safe API endpoints alongside your application. No separate backend needed.",
-    },
-    {
-      icon: <Shield className="w-12 h-12 text-cyan-400" />,
-      title: "Strongly Typed Everything",
-      description:
-        "End-to-end type safety from server to client. Catch errors before they reach production.",
-    },
-    {
-      icon: <Waves className="w-12 h-12 text-cyan-400" />,
-      title: "Full Streaming Support",
-      description:
-        "Stream data from server to client progressively. Perfect for AI applications and real-time updates.",
-    },
-    {
-      icon: <Sparkles className="w-12 h-12 text-cyan-400" />,
-      title: "Next Generation Ready",
-      description:
-        "Built from the ground up for modern web applications. Deploy anywhere JavaScript runs.",
-    },
-  ];
-
+function PuzzlePage() {
   const data = Route.useLoaderData();
+  const game = usePuzzleGame(data);
+
+  const canRemove =
+    !!game.focusedCell &&
+    !!game.board[game.focusedCell[0]]?.[game.focusedCell[1]] &&
+    !game.isHint(game.focusedCell[0], game.focusedCell[1]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      <section className="relative py-20 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10"></div>
-        <div className="relative max-w-5xl mx-auto">
-          <div className="flex items-center justify-center gap-6 mb-6">
-            <img
-              src="/tanstack-circle-logo.png"
-              alt="TanStack Logo"
-              className="w-24 h-24 md:w-32 md:h-32"
+    <div className="h-full bg-gradient-to-b from-parchment to-[#e2e3c2] font-body flex flex-col items-center justify-center px-2 py-1 lg:px-4 lg:py-3">
+      {/* Wordmark — hidden when viewport is short on mobile */}
+      <div className="hidden tall-viewport:block lg:block text-center mb-9 lg:mb-2 lg:-mt-2">
+        <span className="font-display text-[min(6vw,24px)] lg:text-5xl font-semibold text-sage leading-none">
+          {t("header.title")}
+        </span>
+        <span className="block text-[min(2.5vw,11px)] lg:text-[21px] text-loam tracking-[0.06em] font-medium font-body">
+          {t("header.subtitle")}
+        </span>
+      </div>
+
+      {/* Main area: stacked on mobile, side-by-side on md+ */}
+      <div className="w-full max-w-[960px] flex flex-col lg:flex-row lg:items-stretch lg:justify-center gap-[min(1.5vh,8px)] lg:gap-6">
+        {/* Grid with mobile action buttons */}
+        <div className="relative w-[min(88vw,58vh,420px)] mx-auto lg:mx-0 lg:w-[min(55vh,500px)] lg:flex-shrink-0">
+          {/* Mobile: reset top-left, remove top-right */}
+          <button
+            type="button"
+            onClick={game.resetBoard}
+            className="lg:hidden absolute -top-8 left-0 font-body text-sm font-semibold bg-cream text-loam border-[1.5px] border-cream-dark rounded-lg py-1 px-3 cursor-pointer z-10"
+          >
+            {"\u21BA"} {t("puzzle.reset")}
+          </button>
+          <button
+            type="button"
+            disabled={!canRemove}
+            onClick={() => {
+              if (game.focusedCell) {
+                game.removePiece(game.focusedCell[0], game.focusedCell[1]);
+              }
+            }}
+            className={`lg:hidden absolute -top-8 right-0 font-body text-sm font-semibold rounded-lg py-1 px-3 flex items-center gap-1 cursor-pointer border-[1.5px] transition-all duration-150 z-10 ${
+              canRemove
+                ? "bg-error/[0.06] text-error border-error/30"
+                : "bg-cream text-loam/30 border-cream-dark cursor-default"
+            }`}
+          >
+            <Trash2 size={14} />
+            {t("constraints.remove")}
+          </button>
+
+          <Grid
+            board={game.board}
+            hints={game.hints}
+            focusedCell={game.focusedCell}
+            selectedCell={game.selectedCell}
+            cellHighlights={game.cellHighlights}
+            onCellClick={game.handleCellClick}
+            onCellRightClick={(r, c) => game.removePiece(r, c)}
+          />
+        </div>
+
+        {/* Right column (desktop) / bottom section (mobile) */}
+        <div className="flex flex-col items-center lg:items-stretch lg:justify-between gap-1.5 lg:gap-0 lg:flex-1 lg:min-w-[280px] lg:max-w-[400px]">
+          <PlantTray
+            selectedPiece={game.selectedPiece}
+            remaining={game.remaining}
+            onPieceClick={game.handlePieceClick}
+          />
+
+          {/* Constraint checklist */}
+          <div className="w-full h-[100px] lg:h-[160px] bg-cream rounded-[14px] border-[1.5px] border-cream-dark flex flex-col">
+            <ConstraintChecklist
+              constraints={game.focusedConstraints}
+              plant={
+                game.focusedCell
+                  ? (game.board[game.focusedCell[0]][game.focusedCell[1]] ?? null)
+                  : null
+              }
+              focusedCell={game.focusedCell}
+              previewPlant={game.previewPlant}
             />
-            <h1 className="text-6xl md:text-7xl font-black text-white [letter-spacing:-0.08em]">
-              <span className="text-gray-300">TANSTACK</span>{" "}
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                START
-              </span>
-            </h1>
           </div>
-          <p className="text-2xl md:text-3xl text-gray-300 mb-4 font-light">
-            The framework for next generation AI applications
-          </p>
-          <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-8">
-            Full-stack framework powered by TanStack Router for React and Solid. Build modern
-            applications with server functions, streaming, and type safety.
-          </p>
-          <div className="flex flex-col items-center gap-4">
-            <a
-              href="https://tanstack.com/start"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg transition-colors shadow-lg shadow-cyan-500/50"
+
+          {/* Actions — desktop only */}
+          <div className="hidden lg:flex items-center justify-between w-full">
+            <button
+              type="button"
+              onClick={game.resetBoard}
+              className="font-body text-[15px] font-semibold bg-cream text-loam border-[1.5px] border-cream-dark rounded-[10px] py-2.5 px-6 cursor-pointer"
             >
-              Documentation
-            </a>
-            <p className="text-gray-400 text-sm mt-2">
-              Begin your TanStack Start journey by editing{" "}
-              <code className="px-2 py-1 bg-slate-700 rounded text-cyan-400">
-                /src/routes/index.tsx
-              </code>
-            </p>
+              {"\u21BA"} {t("puzzle.reset")}
+            </button>
+            <button
+              type="button"
+              disabled={!canRemove}
+              onClick={() => {
+                if (game.focusedCell) {
+                  game.removePiece(game.focusedCell[0], game.focusedCell[1]);
+                }
+              }}
+              className={`font-body text-[15px] font-semibold rounded-[10px] py-2.5 px-5 flex items-center gap-1.5 cursor-pointer border-[1.5px] transition-all duration-150 ${
+                canRemove
+                  ? "bg-error/[0.06] text-error border-error/30 hover:bg-error/[0.12]"
+                  : "bg-cream text-loam/30 border-cream-dark cursor-default"
+              }`}
+            >
+              <Trash2 size={15} />
+              {t("constraints.remove")}
+            </button>
+          </div>
+
+          {/* How to play — hidden on mobile */}
+          <div className="hidden lg:block px-2 text-lg text-loam text-left leading-6">
+            <strong>{t("puzzle.howToPlay")}</strong> {t("puzzle.howToPlayBody")}
           </div>
         </div>
-      </section>
+      </div>
 
-      <section className="py-8 px-6 max-w-7xl mx-auto">
-        <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6">
-          <h2 className="text-lg font-semibold text-white mb-3">{data.message}</h2>
-          <ul className="flex gap-4">
-            {data.items.map((item) => (
-              <li key={item.id} className="px-3 py-1 bg-slate-700 rounded text-gray-300 text-sm">
-                {item.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      {/* TODO: RulesPanel — commented out until we design a landscape-friendly layout
+      <div className="w-full max-w-[420px]">
+        <RulesPanel
+          expanded={game.rulesOpen}
+          onToggle={() => game.setRulesOpen(!game.rulesOpen)}
+        />
+      </div>
+      */}
 
-      <section className="py-16 px-6 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature) => (
-            <div
-              key={feature.title}
-              className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10"
-            >
-              <div className="mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
-              <p className="text-gray-400 leading-relaxed">{feature.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      {game.won && (
+        <WinModal
+          moves={game.moves}
+          difficulty={game.difficulty}
+          onClose={() => game.setWon(false)}
+        />
+      )}
     </div>
   );
 }

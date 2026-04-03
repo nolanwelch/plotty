@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "plotty",
+    "subtitle": "COMPANION PLANTING PUZZLE",
+    "nav": "Navigation",
+    "home": "Home",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "puzzle": {
+    "sunlight": "SUNLIGHT",
+    "left": "{count} left",
+    "moves": "{count} move",
+    "movesPlural": "{count} moves",
+    "reset": "Reset",
+    "howToPlay": "How to play:",
+    "howToPlayBody": "Tap a plant, then tap an empty cell. Tap a placed plant to remove it. Tap any cell to see its constraints and highlights."
+  },
+  "constraints": {
+    "tapToInspect": "Tap a plant to inspect its needs",
+    "notPlaced": "not placed",
+    "happy": "HAPPY",
+    "tall": "TALL",
+    "waiting": "waiting\u2026",
+    "remove": "Remove",
+    "given": "GIVEN",
+    "tomatoCompanion": "Must touch Basil",
+    "tomatoAntagonistCorn": "Can't touch Corn",
+    "tomatoAntagonistBean": "Can't touch Bean",
+    "tomatoTrait": "Tall plant (provides shade below)",
+    "basilCompanion": "Must touch Tomato",
+    "basilShade": "Needs shade (tall plant above)",
+    "carrotCompanion": "Must touch Onion",
+    "carrotAntagonist": "Can't touch Marigold",
+    "onionCompanion": "Must touch Carrot",
+    "onionAntagonist": "Can't touch Bean",
+    "beanCompanion": "Must touch Corn",
+    "beanAntagonistOnion": "Can't touch Onion",
+    "beanAntagonistTomato": "Can't touch Tomato",
+    "cornCompanion": "Must touch Bean",
+    "cornAntagonist": "Can't touch Tomato",
+    "cornTrait": "Tall plant (provides shade below)",
+    "marigoldAntagonistSelf": "No adjacent Marigold",
+    "marigoldAntagonistCarrot": "Can't touch Carrot",
+    "marigoldPosition": "Must be on border"
+  },
+  "rules": {
+    "title": "Companion Guide",
+    "sunlightExplanation": "Sunlight comes from above the grid. Tall plants shade the cell directly below them. \"Touch\" = up/down/left/right."
+  },
+  "win": {
+    "title": "Garden Complete!",
+    "bodyLine1": "Every plant is happy!",
+    "bodyLine2": "Solved in {moves} move(s).",
+    "shareLabel": "plotty",
+    "shareMoves": "Moves: {moves}",
+    "copyShare": "Copy results",
+    "copied": "Copied!",
+    "done": "Done"
+  },
+  "plants": {
+    "tomato": "Tomato",
+    "basil": "Basil",
+    "carrot": "Carrot",
+    "onion": "Onion",
+    "bean": "Bean",
+    "corn": "Corn",
+    "marigold": "Marigold"
+  },
+  "difficulty": {
+    "1": "Seedling",
+    "2": "Sprout",
+    "3": "Bloom",
+    "4": "Gardener",
+    "5": "Master"
+  }
+}

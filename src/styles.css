@@ -1,12 +1,99 @@
 @import "tailwindcss";
 
+@theme {
+  --color-soil: #2c1810;
+  --color-loam: #5c3a2a;
+  --color-terracotta: #c4663a;
+  --color-sage: #7a9e7e;
+  --color-sage-dark: #5b7d5f;
+  --color-sage-light: #a8c5ab;
+  --color-cream: #e4e5d1;
+  --color-cream-dark: #d4d5c0;
+  --color-parchment: #f1f2e1;
+  --color-sun: #f2c94c;
+  --color-error: #d4594e;
+  --color-error-bg: #fdecea;
+
+  --font-display: "Fraunces", serif;
+  --font-body: "DM Sans", sans-serif;
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  18% {
+    transform: scale(1);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  60% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes text-pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (min-height: 700px) {
+  .tall-viewport\:block {
+    display: block;
+  }
+}
+
 body {
-  @apply m-0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  @apply m-0 font-body;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 code {

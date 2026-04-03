@@ -1,4 +1,5 @@
 import { createMiddleware } from "@tanstack/react-start";
+import { makePuzzleService } from "@/services/puzzle.service";
 import { makeDataService } from "../services/data.service";
 
 export const contextMiddleware = createMiddleware({ type: "function" }).server(async ({ next }) => {
@@ -7,8 +8,9 @@ export const contextMiddleware = createMiddleware({ type: "function" }).server(a
 
   // Services
   const dataService = makeDataService();
+  const puzzleService = makePuzzleService();
 
   return next({
-    context: { dataService },
+    context: { dataService, puzzleService },
   });
 });

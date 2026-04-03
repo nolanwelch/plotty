@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "圃乐蒂",
+    "subtitle": "伴生种植谜题",
+    "nav": "导航",
+    "home": "首页",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单"
+  },
+  "puzzle": {
+    "sunlight": "阳光",
+    "left": "剩余 {count}",
+    "moves": "{count} 步",
+    "movesPlural": "{count} 步",
+    "reset": "重置",
+    "howToPlay": "玩法说明：",
+    "howToPlayBody": "点击植物，再点击空格放置。点击已放置的植物可移除。点击任意格子查看约束条件和高亮提示。"
+  },
+  "constraints": {
+    "tapToInspect": "点击植物查看需求",
+    "notPlaced": "未放置",
+    "happy": "满意",
+    "tall": "高株",
+    "waiting": "等待中…",
+    "remove": "移除",
+    "given": "固定",
+    "tomatoCompanion": "必须相邻罗勒",
+    "tomatoAntagonistCorn": "不能相邻玉米",
+    "tomatoAntagonistBean": "不能相邻豆子",
+    "tomatoTrait": "高株植物（为下方格子遮阴）",
+    "basilCompanion": "必须相邻番茄",
+    "basilShade": "需要遮阴（上方须有高株植物）",
+    "carrotCompanion": "必须相邻洋葱",
+    "carrotAntagonist": "不能相邻万寿菊",
+    "onionCompanion": "必须相邻胡萝卜",
+    "onionAntagonist": "不能相邻豆子",
+    "beanCompanion": "必须相邻玉米",
+    "beanAntagonistOnion": "不能相邻洋葱",
+    "beanAntagonistTomato": "不能相邻番茄",
+    "cornCompanion": "必须相邻豆子",
+    "cornAntagonist": "不能相邻番茄",
+    "cornTrait": "高株植物（为下方格子遮阴）",
+    "marigoldAntagonistSelf": "不能相邻其他万寿菊",
+    "marigoldAntagonistCarrot": "不能相邻胡萝卜",
+    "marigoldPosition": "必须在边缘"
+  },
+  "rules": {
+    "title": "伴生指南",
+    "sunlightExplanation": "阳光从网格上方照射。高株植物为正下方格子遮阴。\"相邻\"指上下左右。"
+  },
+  "win": {
+    "title": "花园完成！",
+    "bodyLine1": "所有植物都满意了！",
+    "bodyLine2": "用了 {moves} 步完成。",
+    "shareLabel": "圃乐蒂",
+    "shareMoves": "步数：{moves}",
+    "copyShare": "复制结果",
+    "copied": "已复制！",
+    "done": "完成"
+  },
+  "plants": {
+    "tomato": "番茄",
+    "basil": "罗勒",
+    "carrot": "胡萝卜",
+    "onion": "洋葱",
+    "bean": "豆子",
+    "corn": "玉米",
+    "marigold": "万寿菊"
+  },
+  "difficulty": {
+    "1": "幼苗",
+    "2": "嫩芽",
+    "3": "花开",
+    "4": "园丁",
+    "5": "大师"
+  }
+}
